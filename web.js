@@ -14,16 +14,46 @@ app.post('/', function (req, res) {
     x: me[1].x,
     y: me[1].y
   }
+  const moves = ['F','L', 'R'];
   console.log("My coordinates",myCoordinates);
   const myDirection = me[1].direction;
   console.log("My direction",myDirection);
-  const nearByOpponents = opponents.filter(opponent=> (opponent[1].y===myCoordinates.y+1 && opponent[1].x===myCoordinates.x || opponent[1].y===myCoordinates.y-1 && opponent[1].x===myCoordinates.x ));
+  const nearByOpponents = opponents.filter(opponent=> ((opponent[1].y===myCoordinates.y+1 && opponent[1].x===myCoordinates.x) || (opponent[1].y===myCoordinates.y-1 && opponent[1].x===myCoordinates.x) || (opponent[1].x===myCoordinates.x+1 && opponent[1].y===myCoordinates.y) || (opponent[1].x===myCoordinates.x-1 && opponent[1].y===myCoordinates.y) ));
   console.log("Near by opponents",nearByOpponents);
   if(nearByOpponents.length>0){
-    res.send('T');
+    if(myDirection==="N"){
+      nearByOpponents.forEach(element => {
+        if(myCoordinates.x==element[1].x && myCoordinates.y+1==element[1].y)res.send('T');
+        if(myCoordinates.x==element[1].x && myCoordinates.y-1==element[1].y)res.send('F');
+        if(myCoordinates.y==element[1].y && myCoordinates.x+1==element[1].x)res.send('R');
+        if(myCoordinates.y==element[1].y && myCoordinates.x-1==element[1].x)res.send('L');
+      });
+    }
+    if(myDirection==="S"){
+      nearByOpponents.forEach(element => {
+        if(myCoordinates.x==element[1].x && myCoordinates.y-1==element[1].y)res.send('T');
+        if(myCoordinates.x==element[1].x && myCoordinates.y+1==element[1].y)res.send('F');
+        if(myCoordinates.y==element[1].y && myCoordinates.x+1==element[1].x)res.send('L');
+        if(myCoordinates.y==element[1].y && myCoordinates.x-1==element[1].x)res.send('R');
+      });
+    }
+    if(myDirection==="E"){
+      nearByOpponents.forEach(element => {
+        if(myCoordinates.x+1==element[1].x && myCoordinates.y==element[1].y)res.send('T');
+        if(myCoordinates.x-1==element[1].x && myCoordinates.y==element[1].y)res.send('F');
+        if(myCoordinates.y+1==element[1].y && myCoordinates.x==element[1].x)res.send('L');
+        if(myCoordinates.y-1==element[1].y && myCoordinates.x==element[1].x)res.send('R');
+      });
+    }
+    if(myDirection==="S"){
+      nearByOpponents.forEach(element => {
+        if(myCoordinates.x-1==element[1].x && myCoordinates.y==element[1].y)res.send('T');
+        if(myCoordinates.x+1==element[1].x && myCoordinates.y==element[1].y)res.send('F');
+        if(myCoordinates.y+1==element[1].y && myCoordinates.x==element[1].x)res.send('R');
+        if(myCoordinates.y-1==element[1].y && myCoordinates.x==element[1].x)res.send('L');
+      });
+    }
   }
-
-  const moves = ['F','L', 'R'];
   res.send(moves[Math.floor(Math.random() * moves.length)]);
 });
 
