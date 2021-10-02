@@ -17,7 +17,7 @@ app.post('/', function (req, res) {
   console.log("My coordinates",myCoordinates);
   const myDirection = me[1].direction;
   console.log("My direction",myDirection);
-  const nearByOpponents = opponents.map(opponent=> (opponent[1].y===myCoordinates.y+1 && opponent[1].x===myCoordinates.x || opponent[1].y===myCoordinates.y-1 && opponent[1].x===myCoordinates.x ));
+  const nearByOpponents = opponents.filter(opponent=> (opponent[1].y===myCoordinates.y+1 && opponent[1].x===myCoordinates.x || opponent[1].y===myCoordinates.y-1 && opponent[1].x===myCoordinates.x ));
   console.log("Near by opponents",nearByOpponents);
   if(nearByOpponents.length>0){
     res.send('T');
