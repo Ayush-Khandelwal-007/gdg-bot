@@ -6,14 +6,25 @@ app.use(bodyParser.json());
 
 app.post('/', function (req, res) {
   console.log("Response",req.body.arena);
-  const bots=Object.entries(req.body.arena.state).filter(bot=>bot[0]!=="https://nodejs-bot-6evexe43kq-em.a.run.app");
+  const bots=Object.entries(req.body.arena.state);
+  const opponents=bots.filter(bot=>bot[0]!=="https://nodejs-bot-6evexe43kq-em.a.run.app");
+  const me = bots.filter(bot=>bot[0]==="https://nodejs-bot-6evexe43kq-em.a.run.app")[0];
 
+  const myCoordinates = {
+    x: me[1].x,
+    y: me[1].y
+  }
 
+  const myDirection = me[1].direction;
 
-  console.log('players = ',Object.entries(req.body.arena.state).length," - 1 = " ,bots.length);
+  const nearByOpponents = opponents.map(opponent=> (opponent[1].y===myCoordinates.y+1 && opponent[1].x===myCoordinates.x || opponent[1].y===myCoordinates.y-1 && opponent[1].x===myCoordinates.x ));
 
-  const moves = ['F', 'T', 'L', 'R'];
-  res.send('T');
+  if(nearByOpponents.length>0){
+    res.send('T');
+  }
+
+  const moves = ['F','L', 'R'];
+  res.send(moves[Math.floor(Math.random() * moves.length)]);
 });
 
 app.listen(process.env.PORT || 8080);
