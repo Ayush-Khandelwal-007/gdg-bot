@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 app.post('/', function (req, res) {
-  console.log("Response",req.body.arena);
   const bots=Object.entries(req.body.arena.state);
   const opponents=bots.filter(bot=>bot[0]!=="https://nodejs-bot-6evexe43kq-em.a.run.app");
   const me = bots.filter(bot=>bot[0]==="https://nodejs-bot-6evexe43kq-em.a.run.app")[0];
